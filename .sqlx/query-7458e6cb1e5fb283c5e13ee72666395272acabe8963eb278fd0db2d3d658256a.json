@@ -1,0 +1,50 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT users.id AS \"id!\", users.realm AS \"realm!: UserRealm\", users.name AS \"name!\", users.email AS \"email!\"\n            FROM users where id = $1;\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id!",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 1,
+        "name": "realm!: UserRealm",
+        "type_info": {
+          "Custom": {
+            "name": "user_realm",
+            "kind": {
+              "Enum": [
+                "csh",
+                "google"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 2,
+        "name": "name!",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 3,
+        "name": "email!",
+        "type_info": "Varchar"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "7458e6cb1e5fb283c5e13ee72666395272acabe8963eb278fd0db2d3d658256a"
+}

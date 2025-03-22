@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "SELECT id AS \"id!\", realm::text AS \"realm!\", name AS \"name!\", email AS \"email!\" FROM users WHERE LOWER(name) LIKE $1 OR LOWER(email) LIKE $1;",
+  "query": "SELECT id AS \"id!\", realm AS \"realm!: UserRealm\", name AS \"name!\", email AS \"email!\" FROM users WHERE LOWER(name) LIKE $1 OR LOWER(email) LIKE $1;",
   "describe": {
     "columns": [
       {
@@ -10,8 +10,18 @@
       },
       {
         "ordinal": 1,
-        "name": "realm!",
-        "type_info": "Text"
+        "name": "realm!: UserRealm",
+        "type_info": {
+          "Custom": {
+            "name": "user_realm",
+            "kind": {
+              "Enum": [
+                "csh",
+                "google"
+              ]
+            }
+          }
+        }
       },
       {
         "ordinal": 2,
@@ -31,10 +41,10 @@
     },
     "nullable": [
       false,
-      null,
+      false,
       false,
       false
     ]
   },
-  "hash": "cb047f95ea4e40c404f8baa40d64374338bfe777cea9708d29aaf12acb3a51e0"
+  "hash": "741df03cbb42910f99372dcab7d2d966e16482d7100cb30955e6a8b5cd97f64b"
 }

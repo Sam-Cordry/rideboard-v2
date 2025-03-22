@@ -1,0 +1,139 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT car.id, car.event_id, car.max_capacity, car.departure_time, car.return_time, car.comment,\n            ROW(driverUser.*)::users AS \"driver!: UserData\",\n            ARRAY_REMOVE(ARRAY_AGG(\n                CASE WHEN riderUser.id IS NOT NULL\n                THEN ROW(riderUser.*)::users\n                END\n            ), NULL) as \"riders!: Vec<UserData>\"\n            FROM car\n            JOIN users driverUser ON car.driver = driverUser.id\n            LEFT JOIN rider on car.id = rider.car_id\n            LEFT JOIN users riderUser ON rider.rider = riderUser.id\n            WHERE event_id = $1 GROUP BY car.id, driverUser.id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "event_id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 2,
+        "name": "max_capacity",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 3,
+        "name": "departure_time",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 4,
+        "name": "return_time",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 5,
+        "name": "comment",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 6,
+        "name": "driver!: UserData",
+        "type_info": {
+          "Custom": {
+            "name": "users",
+            "kind": {
+              "Composite": [
+                [
+                  "id",
+                  "Varchar"
+                ],
+                [
+                  "realm",
+                  {
+                    "Custom": {
+                      "name": "user_realm",
+                      "kind": {
+                        "Enum": [
+                          "csh",
+                          "google"
+                        ]
+                      }
+                    }
+                  }
+                ],
+                [
+                  "name",
+                  "Varchar"
+                ],
+                [
+                  "email",
+                  "Varchar"
+                ]
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 7,
+        "name": "riders!: Vec<UserData>",
+        "type_info": {
+          "Custom": {
+            "name": "users[]",
+            "kind": {
+              "Array": {
+                "Custom": {
+                  "name": "users",
+                  "kind": {
+                    "Composite": [
+                      [
+                        "id",
+                        "Varchar"
+                      ],
+                      [
+                        "realm",
+                        {
+                          "Custom": {
+                            "name": "user_realm",
+                            "kind": {
+                              "Enum": [
+                                "csh",
+                                "google"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      [
+                        "name",
+                        "Varchar"
+                      ],
+                      [
+                        "email",
+                        "Varchar"
+                      ]
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Int4"
+      ]
+    },
+    "nullable": [
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      null,
+      null
+    ]
+  },
+  "hash": "b308e89ef9a0f59e2ccb7d3b5234e3c46d3121a45542053f2746206e78a2f462"
+}

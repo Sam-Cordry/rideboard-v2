@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "INSERT INTO users (id, realm, name, email)\n            VALUES ($1, $2, $3, $4)\n            ON CONFLICT (id) DO UPDATE SET realm = EXCLUDED.realm, name = EXCLUDED.name, email = EXCLUDED.email\n            RETURNING id AS \"id!\", realm::text AS \"realm!\", name AS \"name!\", email AS \"email!\";",
+  "query": "INSERT INTO users (id, realm, name, email)\n            VALUES ($1, $2, $3, $4)\n            ON CONFLICT (id) DO UPDATE SET realm = EXCLUDED.realm, name = EXCLUDED.name, email = EXCLUDED.email\n            RETURNING id AS \"id!\", realm AS \"realm!: UserRealm\", name AS \"name!\", email AS \"email!\";",
   "describe": {
     "columns": [
       {
@@ -10,8 +10,18 @@
       },
       {
         "ordinal": 1,
-        "name": "realm!",
-        "type_info": "Text"
+        "name": "realm!: UserRealm",
+        "type_info": {
+          "Custom": {
+            "name": "user_realm",
+            "kind": {
+              "Enum": [
+                "csh",
+                "google"
+              ]
+            }
+          }
+        }
       },
       {
         "ordinal": 2,
@@ -44,10 +54,10 @@
     },
     "nullable": [
       false,
-      null,
+      false,
       false,
       false
     ]
   },
-  "hash": "c0a0870ea552a324fe5396b722d25f895d6297af309db791459b659df20d1de9"
+  "hash": "478ada18673745c359b434a721ee4810667f819498eaa254de1523f3709a2ef9"
 }

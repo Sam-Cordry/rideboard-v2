@@ -1,0 +1,86 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT\n            event.id, event.name, event.location, event.start_time, event.end_time,\n            ROW(users.*)::users AS \"creator!: UserData\"\n            FROM event\n            JOIN users ON users.id = event.creator\n            WHERE event.id = $1\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 2,
+        "name": "location",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 3,
+        "name": "start_time",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 4,
+        "name": "end_time",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 5,
+        "name": "creator!: UserData",
+        "type_info": {
+          "Custom": {
+            "name": "users",
+            "kind": {
+              "Composite": [
+                [
+                  "id",
+                  "Varchar"
+                ],
+                [
+                  "realm",
+                  {
+                    "Custom": {
+                      "name": "user_realm",
+                      "kind": {
+                        "Enum": [
+                          "csh",
+                          "google"
+                        ]
+                      }
+                    }
+                  }
+                ],
+                [
+                  "name",
+                  "Varchar"
+                ],
+                [
+                  "email",
+                  "Varchar"
+                ]
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Int4"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      null
+    ]
+  },
+  "hash": "366d090e5be3459cf1194d88388a3e4e23ea8d0a725d8180909f2874438e9955"
+}

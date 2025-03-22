@@ -1,0 +1,90 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            WITH new_event AS (\n                INSERT INTO event (name, location, start_time, end_time, creator) VALUES ($1, $2, $3, $4, $5) RETURNING *\n            )\n            SELECT new_event.id, new_event.name, new_event.location, new_event.start_time, new_event.end_time,\n            (users.id, users.realm, users.name, users.email)::users AS \"creator!: UserData\"\n            FROM new_event LEFT JOIN users ON new_event.creator = users.id\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 2,
+        "name": "location",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 3,
+        "name": "start_time",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 4,
+        "name": "end_time",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 5,
+        "name": "creator!: UserData",
+        "type_info": {
+          "Custom": {
+            "name": "users",
+            "kind": {
+              "Composite": [
+                [
+                  "id",
+                  "Varchar"
+                ],
+                [
+                  "realm",
+                  {
+                    "Custom": {
+                      "name": "user_realm",
+                      "kind": {
+                        "Enum": [
+                          "csh",
+                          "google"
+                        ]
+                      }
+                    }
+                  }
+                ],
+                [
+                  "name",
+                  "Varchar"
+                ],
+                [
+                  "email",
+                  "Varchar"
+                ]
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Varchar",
+        "Varchar",
+        "Timestamptz",
+        "Timestamptz",
+        "Varchar"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      null
+    ]
+  },
+  "hash": "7c295838adf660d733e49ce9d818c910d7df0d66b3b8793716b6c44be8a576c2"
+}

@@ -94,10 +94,10 @@ impl Car {
                 VALUES ($1, $2, $3, $4, $5, $6) RETURNING *
             )
             SELECT car.id, car.event_id, car.max_capacity, car.departure_time, car.return_time, car.comment,
-            (driverUser.id, driverUser.realm::text, driverUser.name, driverUser.email) AS "driver!: UserData",
+            ROW(driverUser.*)::users AS "driver!: UserData",
             ARRAY_REMOVE(ARRAY_AGG(
                 CASE WHEN riderUser.id IS NOT NULL
-                THEN (riderUser.id, riderUser.realm::text, riderUser.name, riderUser.email)
+                THEN ROW(riderUser.*)::users
                 END
             ), NULL) as "riders!: Vec<UserData>"
             FROM car
@@ -138,10 +138,10 @@ impl Car {
                 WHERE event_id = $5 AND id = $6 AND driver = $7 RETURNING *
             )
             SELECT new_car.id, new_car.event_id, new_car.max_capacity, new_car.departure_time, new_car.return_time, new_car.comment,
-            (driverUser.id, driverUser.realm::text, driverUser.name, driverUser.email) AS "driver!: UserData",
+            ROW(driverUser.*)::users AS "driver!: UserData",
             ARRAY_REMOVE(ARRAY_AGG(
                 CASE WHEN riderUser.id IS NOT NULL
-                THEN (riderUser.id, riderUser.realm::text, riderUser.name, riderUser.email)
+                THEN ROW(riderUser.*)::users
                 END
             ), NULL) as "riders!: Vec<UserData>"
             FROM new_car
@@ -168,10 +168,10 @@ impl Car {
         query_as!(
             Car,
             r#"SELECT car.id, car.event_id, car.max_capacity, car.departure_time, car.return_time, car.comment,
-            (driverUser.id, driverUser.realm::text, driverUser.name, driverUser.email) AS "driver!: UserData",
+            ROW(driverUser.*)::users AS "driver!: UserData",
             ARRAY_REMOVE(ARRAY_AGG(
                 CASE WHEN riderUser.id IS NOT NULL
-                THEN (riderUser.id, riderUser.realm::text, riderUser.name, riderUser.email)
+                THEN ROW(riderUser.*)::users
                 END
             ), NULL) as "riders!: Vec<UserData>"
             FROM car
@@ -190,10 +190,10 @@ impl Car {
         query_as!(
             Car,
             r#"SELECT car.id, car.event_id, car.max_capacity, car.departure_time, car.return_time, car.comment,
-            (driverUser.id, driverUser.realm::text, driverUser.name, driverUser.email) AS "driver!: UserData",
+            ROW(driverUser.*)::users AS "driver!: UserData",
             ARRAY_REMOVE(ARRAY_AGG(
                 CASE WHEN riderUser.id IS NOT NULL
-                THEN (riderUser.id, riderUser.realm::text, riderUser.name, riderUser.email)
+                THEN ROW(riderUser.*)::users
                 END
             ), NULL) as "riders!: Vec<UserData>"
             FROM car
