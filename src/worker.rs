@@ -9,7 +9,7 @@ use std::time::Duration;
 
 use crate::{
     app::{RedisJob, SimpleRiderChange},
-    db::user::UserData,
+    db::user::{UserData, UserRealm},
     pings::PingClient,
 };
 
@@ -56,7 +56,7 @@ async fn get_driver(car_id: i32, db_pool: &Pool<Postgres>) -> Result<UserData> {
     query_as!(
         UserData,
         r#"
-        SELECT users.id AS "id!", users.realm::text AS "realm!", users.name AS "name!", users.email AS "email!"
+        SELECT users.id AS "id!", users.realm AS "realm!: UserRealm", users.name AS "name!", users.email AS "email!"
         FROM car JOIN users ON car.driver = users.id WHERE car.id = $1;
         "#, car_id
     ).fetch_one(db_pool).await.map_err(|err| anyhow!("Failed to get driver: {}", err))
@@ -90,7 +90,7 @@ async fn work(job: &Item, db_pool: &Pool<Postgres>, pings: &PingClient) -> Resul
                         msg: err.to_string(),
                         should_retry: false,
                     })?;
-            if driver.realm != "csh" {
+            if driver.realm != UserRealm::Csh {
                 return Ok(());
             }
             pings
@@ -113,7 +113,7 @@ async fn work(job: &Item, db_pool: &Pool<Postgres>, pings: &PingClient) -> Resul
                         msg: err.to_string(),
                         should_retry: false,
                     })?;
-            if driver.realm != "csh" {
+            if driver.realm != UserRealm::Csh {
                 return Ok(());
             }
             pings
@@ -161,7 +161,7 @@ async fn work(job: &Item, db_pool: &Pool<Postgres>, pings: &PingClient) -> Resul
                     msg: "User was missing from map.".to_string(),
                     should_retry: false,
                 })?;
-                if user.realm != "csh" {
+                if user.realm != UserRealm::Csh {
                     continue;
                 }
                 pings
@@ -181,7 +181,7 @@ async fn work(job: &Item, db_pool: &Pool<Postgres>, pings: &PingClient) -> Resul
                     msg: "User was missing from map.".to_string(),
                     should_retry: false,
                 })?;
-                if user.realm != "csh" {
+                if user.realm != UserRealm::Csh {
                     continue;
                 }
                 pings

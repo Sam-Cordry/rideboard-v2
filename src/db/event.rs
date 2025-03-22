@@ -60,7 +60,7 @@ impl Event {
                 INSERT INTO event (name, location, start_time, end_time, creator) VALUES ($1, $2, $3, $4, $5) RETURNING *
             )
             SELECT new_event.id, new_event.name, new_event.location, new_event.start_time, new_event.end_time,
-            (users.id, users.realm, users.name, users.email) AS "creator!: UserData"
+            (users.id, users.realm, users.name, users.email)::users AS "creator!: UserData"
             FROM new_event LEFT JOIN users ON new_event.creator = users.id
             "#,
             data.name, data.location, data.start_time, data.end_time, creator_id
@@ -90,8 +90,8 @@ impl Event {
                 RETURNING *
             )
             SELECT new_event.id, new_event.name, new_event.location, new_event.start_time, new_event.end_time,
-            (users.id, users.realm, users.name, users.email) AS "creator!: UserData"
-            FROM new_event LEFT JOIN users ON new_event.creator = users.id
+            ROW(users.*)::users AS "creator!: UserData"
+            FROM new_event JOIN users ON new_event.creator = users.id
             "#,
             data.name,
             data.location,
@@ -112,7 +112,7 @@ impl Event {
             r#"
             SELECT
             event.id, event.name, event.location, event.start_time, event.end_time,
-            (users.id, users.realm::text, users.name, users.email) AS "creator!: UserData"
+            ROW(users.*)::users AS "creator!: UserData"
             FROM event
             JOIN users ON users.id = event.creator
             WHERE (end_time >= NOW() AND $1 = False) OR (end_time < NOW() AND $1)
@@ -133,7 +133,7 @@ impl Event {
             r#"
             SELECT
             event.id, event.name, event.location, event.start_time, event.end_time,
-            (users.id, users.realm, users.name, users.email) AS "creator!: UserData"
+            ROW(users.*)::users AS "creator!: UserData"
             FROM event
             JOIN users ON users.id = event.creator
             WHERE event.id = $1
