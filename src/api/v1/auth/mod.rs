@@ -1,9 +1,9 @@
-use crate::auth::SessionAuth;
-use crate::{api::v1::auth::models::UserInfo, app::ApiError};
 use actix_session::Session;
 use actix_web::{get, http::header, post, web, HttpResponse, Responder, Scope};
 use log::error;
 use utoipa::OpenApi;
+
+use crate::{api::v1::auth::models::UserInfo, app::ApiError, auth::SessionAuth};
 
 mod common;
 mod csh;

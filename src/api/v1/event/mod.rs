@@ -1,8 +1,3 @@
-use crate::{
-    api::v1::auth::models::UserInfo,
-    app::ApiError,
-    db::event::{Event, EventData},
-};
 use actix_session::Session;
 use actix_web::{
     delete, get, post, put,
@@ -11,13 +6,17 @@ use actix_web::{
 };
 use log::error;
 use serde::Deserialize;
-
-use crate::app::AppState;
-use crate::auth::SessionAuth;
-
 use utoipa::OpenApi;
 
-use crate::db::user::UserData;
+use crate::{
+    api::v1::auth::models::UserInfo,
+    app::{ApiError, AppState},
+    auth::SessionAuth,
+    db::{
+        event::{Event, EventData},
+        user::UserData,
+    },
+};
 
 mod car;
 

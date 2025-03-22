@@ -1,19 +1,22 @@
-use actix_session::storage::CookieSessionStore;
-use actix_session::SessionMiddleware;
-use actix_web::cookie::Key;
-use actix_web::{middleware::Logger, web, App, HttpResponse, HttpServer, Responder};
+use actix_session::{storage::CookieSessionStore, SessionMiddleware};
+use actix_web::{cookie::Key, middleware::Logger, web, App, HttpResponse, HttpServer, Responder};
 use anyhow::{anyhow, Result};
 use base64::prelude::*;
 use include_dir::{include_dir, Dir};
 use log::info;
 use redis_work_queue::{KeyPrefix, WorkQueue};
 use sqlx::postgres::PgPoolOptions;
-use std::env;
-use std::sync::{Arc, Mutex};
+use std::{
+    env,
+    sync::{Arc, Mutex},
+};
 
-use crate::app::{ApiError, AppState};
-use crate::redis::RedisQueue;
-use crate::{api, auth};
+use crate::{
+    api,
+    app::{ApiError, AppState},
+    auth,
+    redis::RedisQueue,
+};
 
 //mod pings; // Undo this when developing it
 

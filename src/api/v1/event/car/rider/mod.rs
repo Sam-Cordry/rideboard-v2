@@ -1,15 +1,14 @@
-use crate::app::{ApiError, AppState, SimpleRiderChange};
-use crate::auth::SessionAuth;
-use crate::db::car::Car;
-use crate::{api::v1::event::UserInfo, app::RedisJob};
 use actix_session::Session;
-use actix_web::{
-    delete, post,
-    web::{self},
-    HttpResponse, Responder, Scope,
-};
+use actix_web::{delete, post, web, HttpResponse, Responder, Scope};
 use log::error;
 use utoipa::OpenApi;
+
+use crate::{
+    api::v1::event::UserInfo,
+    app::{ApiError, AppState, RedisJob, SimpleRiderChange},
+    auth::SessionAuth,
+    db::car::Car,
+};
 
 #[derive(OpenApi)]
 #[openapi(paths(create_rider, delete_rider))]

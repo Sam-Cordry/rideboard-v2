@@ -1,12 +1,12 @@
 use actix_web::{get, web, HttpResponse, Responder, Scope};
 use serde::Deserialize;
-
-use crate::app::{ApiError, AppState};
-use crate::auth::SessionAuth;
-
 use utoipa::OpenApi;
 
-use crate::db::user::UserData;
+use crate::{
+    app::{ApiError, AppState},
+    auth::SessionAuth,
+    db::user::UserData,
+};
 
 #[derive(OpenApi)]
 #[openapi(paths(user_search), components(schemas(UserData)))]

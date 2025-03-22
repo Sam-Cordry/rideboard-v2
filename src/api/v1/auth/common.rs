@@ -1,8 +1,7 @@
 use actix_session::Session;
 use actix_web::{HttpResponse, Responder};
 use anyhow::Result;
-use oauth2::basic::BasicClient;
-use oauth2::{CsrfToken, Scope as OAuthScope};
+use oauth2::{basic::BasicClient, CsrfToken, Scope as OAuthScope};
 
 use super::models::UserInfo;
 

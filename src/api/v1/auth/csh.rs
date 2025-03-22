@@ -1,18 +1,19 @@
-use crate::api::v1::auth::models::{CSHUserInfo, UserInfo};
-use crate::app::{ApiError, AppState};
-use crate::db::user::{UserData, UserRealm};
 use actix_session::Session;
-use actix_web::http::header;
-use actix_web::{get, Scope};
-use actix_web::{web, HttpResponse, Responder};
+use actix_web::{get, http::header, web, HttpResponse, Responder, Scope};
 use log::error;
-use oauth2::reqwest::async_http_client;
-use oauth2::{AuthorizationCode, TokenResponse};
+use oauth2::{reqwest::async_http_client, AuthorizationCode, TokenResponse};
 use reqwest::Client;
 use serde::Deserialize;
 use utoipa::{OpenApi, ToSchema};
 
-use crate::api::v1::auth::common::{self, login_session};
+use crate::{
+    api::v1::auth::{
+        common::{self, login_session},
+        models::{CSHUserInfo, UserInfo},
+    },
+    app::{ApiError, AppState},
+    db::user::{UserData, UserRealm},
+};
 
 #[derive(OpenApi)]
 #[openapi(paths(login, auth,), components(schemas(AuthRequest)))]

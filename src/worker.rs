@@ -1,11 +1,9 @@
-use std::{collections::HashSet, env};
-
 use anyhow::{anyhow, Result};
 use log::error;
 use redis::{aio::MultiplexedConnection, RedisResult};
 use redis_work_queue::{Item, KeyPrefix, WorkQueue};
 use sqlx::{postgres::PgPoolOptions, query, query_as, Pool, Postgres};
-use std::time::Duration;
+use std::{collections::HashSet, env, time::Duration};
 
 use crate::{
     app::{RedisJob, SimpleRiderChange},

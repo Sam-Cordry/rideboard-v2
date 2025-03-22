@@ -1,8 +1,7 @@
-use std::collections::HashMap;
-
 use anyhow::{anyhow, Result};
 use serde::{Deserialize, Serialize};
 use sqlx::{query_as, Executor, Postgres};
+use std::collections::HashMap;
 use utoipa::ToSchema;
 
 #[derive(Serialize, Deserialize, sqlx::Type, Clone, PartialEq)]

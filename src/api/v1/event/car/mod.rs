@@ -1,17 +1,22 @@
-use crate::api::v1::auth::models::UserInfo;
-use crate::app::{ApiError, AppState, MultipleRiderChange, RedisJob};
-use crate::db::car::{Car, CarData};
-use crate::{auth::SessionAuth, db::user::UserData};
 use actix_session::Session;
 use actix_web::{
     delete, get, post, put,
     web::{self},
     HttpResponse, Responder, Scope,
 };
+use log::error;
 use sqlx::query;
 use utoipa::OpenApi;
 
-use log::error;
+use crate::{
+    api::v1::auth::models::UserInfo,
+    app::{ApiError, AppState, MultipleRiderChange, RedisJob},
+    auth::SessionAuth,
+    db::{
+        car::{Car, CarData},
+        user::UserData,
+    },
+};
 
 mod rider;
 
