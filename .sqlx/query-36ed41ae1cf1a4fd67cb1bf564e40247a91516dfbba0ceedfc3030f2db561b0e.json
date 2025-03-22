@@ -1,0 +1,50 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT id AS \"id!\", realm AS \"realm!: UserRealm\", name AS \"name!\", email AS \"email!\"\n            FROM users WHERE id IN (SELECT UNNEST($1::VARCHAR[]))\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id!",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 1,
+        "name": "realm!: UserRealm",
+        "type_info": {
+          "Custom": {
+            "name": "user_realm",
+            "kind": {
+              "Enum": [
+                "csh",
+                "google"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 2,
+        "name": "name!",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 3,
+        "name": "email!",
+        "type_info": "Varchar"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "VarcharArray"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "36ed41ae1cf1a4fd67cb1bf564e40247a91516dfbba0ceedfc3030f2db561b0e"
+}

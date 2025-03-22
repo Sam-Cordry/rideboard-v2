@@ -12,8 +12,6 @@ pub enum UserRealm {
     Google,
 }
 
-
-
 #[derive(Serialize, Deserialize, sqlx::Type, ToSchema, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct UserData {
